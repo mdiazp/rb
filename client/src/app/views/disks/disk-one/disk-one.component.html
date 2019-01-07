@@ -1,0 +1,31 @@
+<mat-card>
+    <mat-card-content>
+        <section class="list-wrapper" *ngIf="!(loading$ | async)">
+            <header class="list-header list-wrapper-item">
+                <span class="list-header-title">
+                  <mat-icon>album</mat-icon><span>{{disk.Name}}</span>
+                </span>
+            </header>
+            <mat-tab-group>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="showone-tab-icon">info</mat-icon>
+                    Informacion
+                </ng-template>
+                <app-disk-info class="disk-one-item" [disk]="this.disk"></app-disk-info>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="showone-tab-icon">settings</mat-icon>
+                  Configuracion
+                </ng-template>
+                <div>
+                  <app-disk-settings class="disk-one-item"
+                                      [disk]="this.disk"
+                                      (change)="refresh($event)"></app-disk-settings>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+        </section>
+    </mat-card-content>
+  </mat-card>

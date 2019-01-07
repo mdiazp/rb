@@ -9,7 +9,30 @@ import (
 // InitDB ...
 func InitDB(db *gorm.DB) (e error) {
 	ms := []Model{
+		&DiskReservation{
+			ServiceBase: ServiceBase{
+				tableName: "disk_reservation",
+			},
+		},
+		&PMessageForDR{
+			PMessageBase: PMessageBase{
+				tableName: "p_message_for_dr",
+			},
+		},
+		&PDiskReservation{
+			PServiceBase: PServiceBase{
+				tableName: "p_disk_reservation",
+			},
+		},
+		&PDiskCopy{
+			PServiceBase: PServiceBase{
+				tableName: "p_disk_copy",
+			},
+		},
+		&Messenger{},
 		&Disk{},
+		&Client{},
+		&User{},
 	}
 
 	model := make([]interface{}, 0)

@@ -1,0 +1,57 @@
+<form [formGroup]="form">
+  <div>
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input formControlName="name"
+            matInput
+            type="text"
+            maxlength="100"
+            required>
+      <mat-hint align="end">
+          {{nameControl.value?.length || 0}}/100
+      </mat-hint>
+      <mat-error>{{'Invalid'}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Numero de Serie</mat-label>
+      <input formControlName="serialNumber"
+            matInput
+            type="text"
+            maxlength="255"
+            required>
+      <mat-hint align="end">
+          {{serialNumberControl.value?.length || 0}}/255
+      </mat-hint>
+      <mat-error>{{'Invalid'}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Capacidad</mat-label>
+      <input formControlName="capacity"
+            matInput
+            type="number"
+            required
+            min="0">
+      <mat-error>{{'Invalid'}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category"
+                  [value]="'BIG'"
+                  required>
+        <mat-option [value]="'BIG'">
+          Grande
+        </mat-option>
+        <mat-option [value]="'SMALL'">
+          Chiquito
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="actived"
+                  [labelPosition]="'before'"> Activo
+    </mat-checkbox>
+  </div>
+</form>

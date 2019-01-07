@@ -1,0 +1,92 @@
+<mat-card>
+  <mat-card-content>
+    <section class="list-wrapper">
+      <header class="list-header list-wrapper-item">
+          <span class="list-header-title">
+            <mat-icon>people</mat-icon><span>Clientes</span>
+          </span>
+          <span class="flex-space"></span>
+          <button mat-raised-button color="primary" (click)="onNew()">
+              <mat-icon>add</mat-icon>Nuevo Cliente</button>
+      </header>
+
+      <mat-accordion class="list-filter-accordion list-wrapper-item">
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>filter_list</mat-icon> Filtrar
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <mat-form-field>
+                  <input #identificationFilter matInput placeholder="Numero de Identificacion (Prefijo)">
+              </mat-form-field>
+              <mat-form-field>
+                  <input #nameFilter matInput placeholder="Nombre (Substring)">
+              </mat-form-field>
+              <mat-form-field>
+                  <input #addressFilter matInput placeholder="Direccion (Substring)">
+              </mat-form-field>
+              <mat-form-field>
+                  <input #phoneFilter matInput placeholder="Telefonos (Substring)">
+              </mat-form-field>
+              <mat-form-field>
+                  <input #descriptionFilter matInput placeholder="Descripcion (Substring)">
+              </mat-form-field>
+              <mat-form-field>
+                  <mat-select #activedFilter placeholder="Activo" [value]='true'>
+                    <mat-option [value]="'all'">
+                      Todos
+                    </mat-option>
+                    <mat-option [value]="true">
+                      Si
+                    </mat-option>
+                    <mat-option [value]="false">
+                      No
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </mat-expansion-panel>
+      </mat-accordion>
+
+      <section class="list-table list-wrapper-item">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+              matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                <mat-cell class="name-cell"
+                          *matCellDef="let o">
+                  <a [routerLink]="['/','clients', 'showone', o.ID]">{{o.Name}}</a>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operations">
+                <mat-header-cell *matHeaderCellDef
+                                 class="table-delete-operation-column">
+                  Eliminar
+                </mat-header-cell>
+                <mat-cell class="operations-cell table-delete-operation-column"
+                          *matCellDef="let o">
+                  <button mat-icon-button (click)="this.onDelete(o)"
+                          matTooltip="Eliminar">
+                      <mat-icon aria-label="Delete" color="warn">
+                                delete
+                      </mat-icon>
+                  </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+
+        <mat-paginator [length]="(dataSource.count$ | async)" [pageSize]="initialPageSize"
+                       [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+      </section>
+    </section>
+  </mat-card-content>
+</mat-card>

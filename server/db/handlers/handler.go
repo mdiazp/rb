@@ -12,6 +12,12 @@ import (
 // Handler ...
 type Handler interface {
 	DiskHandler
+	ClientHandler
+	UserHandler
+	PDiskReservationHandler
+	PDiskCopyHandler
+	MessengerHandler
+	PMessageForDRHandler
 	Close() error
 }
 

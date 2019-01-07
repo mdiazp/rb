@@ -1,0 +1,15 @@
+<h3 style="margin-top: 10px;margin-bottom: 10px;">Nuevo Disco</h3>
+<mat-dialog-content>
+  <app-form-disk></app-form-disk>
+</mat-dialog-content>
+<mat-dialog-actions
+  style="flex-flow: row-reverse wrap; margin-top: 20px;">
+  <button mat-raised-button
+          color="primary"
+          [mat-dialog-close]="getDisk()" cdkFocusInitial
+          [disabled]="!this.form.Valid()"
+          style="margin-left: 10px; margin-bottom: 10px;">Aceptar</button>
+
+  <button mat-raised-button [mat-dialog-close]
+          style="margin-left: 10px; margin-bottom: 10px;">Cancelar</button>
+</mat-dialog-actions>

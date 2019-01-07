@@ -29,7 +29,7 @@ func (o *Client) Valid() *[]ValidationError {
 	validateString(&es, o.Name, "Name", 1, 100)
 	validateString(&es, o.Address, "Address", 0, 1024)
 	validateString(&es, o.Phones, "Phones", 0, 100)
-	validateString(&es, o.Description, "Descriptions", 0, 1024)
+	validateString(&es, o.Description, "Description", 0, 1024)
 	return &es
 }
 

@@ -60,7 +60,7 @@ func makeEqBoolFilter(db *gorm.DB, value *bool, column string) *gorm.DB {
 	}
 	return db
 }
-func makeEqStringFilter(db *gorm.DB, value *bool, column string) *gorm.DB {
+func makeEqStringFilter(db *gorm.DB, value *string, column string) *gorm.DB {
 	if value != nil {
 		s := fmt.Sprintf("%s = ?", column)
 		db = db.Where(s, *value)

@@ -1,0 +1,42 @@
+<mat-card>
+    <mat-card-content>
+        <section class="list-wrapper" *ngIf="!(loading$ | async)">
+            <header class="list-header list-wrapper-item">
+                <span class="list-header-title">
+                  <mat-icon>person</mat-icon><span>{{client.Name}}</span>
+                </span>
+            </header>
+            <mat-tab-group>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="showone-tab-icon">info</mat-icon>
+                    Perfil del cliente
+                </ng-template>
+                <app-client-info class="client-one-item" [client]="this.client"></app-client-info>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="showone-tab-icon">business_center</mat-icon>
+                  Servicios
+                </ng-template>
+                <div>
+                  <app-client-services class="client-one-item"
+                                       [client]="this.client">
+                  </app-client-services>
+                </div>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="showone-tab-icon">settings</mat-icon>
+                  Editar Perfil
+                </ng-template>
+                <div>
+                  <app-client-settings class="client-one-item"
+                                      [client]="this.client"
+                                      (change)="refresh($event)"></app-client-settings>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+        </section>
+    </mat-card-content>
+  </mat-card>

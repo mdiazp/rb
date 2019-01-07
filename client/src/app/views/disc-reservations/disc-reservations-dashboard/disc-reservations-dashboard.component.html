@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-content>
+    <section class="list-wrapper">
+      <header class="list-header list-wrapper-item">
+          <span class="list-header-title">
+            <mat-icon>event_range</mat-icon><span>Reservaciones de Disco</span>
+          </span>
+          <span class="flex-space"></span>
+          <button mat-raised-button color="primary" (click)="onNew()">
+              <mat-icon>add</mat-icon>Nueva Reservacion</button>
+      </header>
+    </section>
+
+    <nav mat-tab-nav-bar>
+      <a mat-tab-link *ngFor="let link of links"
+         [routerLink]="link.Path"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+         <mat-icon>{{link.Icon}}</mat-icon>{{link.Text}}
+      </a>
+    </nav>
+
+    <router-outlet></router-outlet>
+
+  </mat-card-content>
+</mat-card>

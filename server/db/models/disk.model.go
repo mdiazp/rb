@@ -24,8 +24,8 @@ func GetDiskCategories() []DiskCategory {
 	}
 }
 
-// ValidateCategoryDisk ...
-func ValidateCategoryDisk(c DiskCategory) bool {
+// ValidateDiskCategory ...
+func ValidateDiskCategory(c DiskCategory) bool {
 	cs := GetDiskCategories()
 	for _, cv := range cs {
 		if cv == c {
@@ -59,7 +59,7 @@ func (o *Disk) Valid() *[]ValidationError {
 	validateString(&es, o.Name, "Name", 1, 100)
 	validateString(&es, o.SerialNumber, "SerialNumber", 1, 255)
 	validateInt(&es, (int)(o.Capacity), "Capacity", 1, (1 << 30))
-	validateValue(&es, "Category", ValidateCategoryDisk(o.Category))
+	validateTrue(&es, "Category", ValidateDiskCategory(o.Category))
 	return &es
 }
 

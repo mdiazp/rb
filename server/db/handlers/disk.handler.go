@@ -33,12 +33,12 @@ func makeDiskFilter(db *gorm.DB, filter *DiskFilter) *gorm.DB {
 		return db
 	}
 	if filter.Capacity != nil {
-		db = db.Where("Capacity = ?", *(filter.Capacity))
+		db = db.Where("disk.capacity = ?", *(filter.Capacity))
 	}
 	if filter.Category != nil {
-		db = db.Where("Category = ?", *(filter.Category))
+		db = db.Where("disk.category = ?", *(filter.Category))
 	}
-	db = makeEqBoolFilter(db, filter.Actived, "actived")
+	db = makeEqBoolFilter(db, filter.Actived, "disk.actived")
 
 	return db
 }
@@ -49,19 +49,19 @@ func (h *handler) CreateDisk(o *models.Disk) error {
 
 func (h *handler) RetrieveDiskByID(id int) (*models.Disk, error) {
 	o := &models.Disk{}
-	e := h.Where("id = ?", id).First(o).Error
+	e := h.Where("disk.id = ?", id).First(o).Error
 	return o, e
 }
 
 func (h *handler) RetrieveDiskByName(name string) (*models.Disk, error) {
 	o := &models.Disk{}
-	e := h.Where("name = ?", name).First(o).Error
+	e := h.Where("disk.name = ?", name).First(o).Error
 	return o, e
 }
 
 func (h *handler) RetrieveDiskBySerialNumber(serialNumber string) (*models.Disk, error) {
 	o := &models.Disk{}
-	e := h.Where("serial_number = ?", serialNumber).First(o).Error
+	e := h.Where("disk.serial_number = ?", serialNumber).First(o).Error
 	return o, e
 }
 

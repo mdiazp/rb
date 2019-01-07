@@ -1,0 +1,1180 @@
+swagger: '2.0'
+info:
+  version: 0.1 (beta)
+  title: api-rb
+  description: RB
+host: 'api.rb.local:1234'
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+
+  /session:
+    post:
+      tags:
+        - account
+      parameters:
+        - $ref: '#/parameters/credentials'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/session'
+          description: token to use as header AuthToken
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - account
+      parameters:
+        - $ref: '#/parameters/authToken'
+      responses:
+        '204':
+          schema:
+            type: string
+          description: Session has been closed
+        '403':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /disk:
+    post:
+      tags:
+        - disk
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/disk.body'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/disk'
+          description: Disk has been created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '500':
+          description: Internal Server Error
+
+  /disk/{diskID}:
+    get:
+      tags:
+        - disk
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/diskID.path'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/disk'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    patch:
+      tags:
+        - disk
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/diskID.path'
+        - $ref: '#/parameters/disk.body'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/disk'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - disk
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/diskID.path'
+      responses:
+        '204':
+          schema:
+            type: string
+          description: Disk was deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /disks:
+    get:
+      tags:
+        - disk
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/orderby'
+        - $ref: '#/parameters/desc'
+        - $ref: '#/parameters/diskFilter.capacity.query'
+        - $ref: '#/parameters/diskFilter.category.query'
+        - $ref: '#/parameters/diskFilter.actived.query'
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/disk'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /diskscount:
+    get:
+      tags:
+        - disk
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/diskFilter.capacity.query'
+        - $ref: '#/parameters/diskFilter.category.query'
+        - $ref: '#/parameters/diskFilter.actived.query'
+      responses:
+        '200':
+          schema:
+            type: integer
+          description: Count
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+
+  /client:
+    post:
+      tags:
+        - client
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/client.body'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/client'
+          description: Client has been created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '500':
+          description: Internal Server Error
+
+  /client/{clientID}:
+    get:
+      tags:
+        - client
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/clientID.path'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/client'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    patch:
+      tags:
+        - client
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/clientID.path'
+        - $ref: '#/parameters/client.body'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/client'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - client
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/clientID.path'
+      responses:
+        '204':
+          schema:
+            type: string
+          description: client was deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /clients:
+    get:
+      tags:
+        - client
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/orderby'
+        - $ref: '#/parameters/desc'
+        - $ref: '#/parameters/clientFilter.identificationPrefix.query'
+        - $ref: '#/parameters/clientFilter.nameSubstr.query'
+        - $ref: '#/parameters/clientFilter.addressSubstr.query'
+        - $ref: '#/parameters/clientFilter.phonesSubstr.query'
+        - $ref: '#/parameters/clientFilter.descriptionSubstr.query'
+        - $ref: '#/parameters/clientFilter.actived.query'
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/client'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          
+  /clientscount:
+    get:
+      tags:
+        - client
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/clientFilter.identificationPrefix.query'
+        - $ref: '#/parameters/clientFilter.nameSubstr.query'
+        - $ref: '#/parameters/clientFilter.addressSubstr.query'
+        - $ref: '#/parameters/clientFilter.phonesSubstr.query'
+        - $ref: '#/parameters/clientFilter.descriptionSubstr.query'
+        - $ref: '#/parameters/clientFilter.actived.query'
+      responses:
+        '200':
+          schema:
+            type: integer
+          description: Count
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+
+  /pdiskreservation:
+    post:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pdiskreservation.body'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/pdiskreservation'
+          description: pdiskreservation has been created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '500':
+          description: Internal Server Error
+
+  /pdiskreservation/{pserviceID}:
+    get:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceID.path'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/pdiskreservation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    patch:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceID.path'
+        - $ref: '#/parameters/pdiskreservation.body'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/pdiskreservation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceID.path'
+      responses:
+        '204':
+          schema:
+            type: string
+          description: pdiskreservation was deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /pdiskreservations:
+    get:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/orderby'
+        - $ref: '#/parameters/desc'
+        - $ref: '#/parameters/pserviceFilter.clientID.query'
+        - $ref: '#/parameters/pserviceFilter.activedClient.query'
+        - $ref: '#/parameters/pserviceFilter.activedInitialTime.query'
+        - $ref: '#/parameters/pserviceFilter.activedFinishTime.query'
+        - $ref: '#/parameters/pdiskreservationFilter.diskCategoryRequest.query'
+        - $ref: '#/parameters/pdiskreservationFilter.turnWeekDay.query'
+        - $ref: '#/parameters/pdiskreservationFilter.turnNum.query'
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/pdiskreservation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          
+  /pdiskreservationscount:
+    get:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceFilter.clientID.query'
+        - $ref: '#/parameters/pserviceFilter.activedClient.query'
+        - $ref: '#/parameters/pserviceFilter.activedInitialTime.query'
+        - $ref: '#/parameters/pserviceFilter.activedFinishTime.query'
+        - $ref: '#/parameters/pdiskreservationFilter.diskCategoryRequest.query'
+        - $ref: '#/parameters/pdiskreservationFilter.turnWeekDay.query'
+        - $ref: '#/parameters/pdiskreservationFilter.turnNum.query'
+      responses:
+        '200':
+          schema:
+            type: integer
+          description: Count
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+
+  /pdiskcopy:
+    post:
+      tags:
+        - pdiskcopy
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pdiskcopy.body'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/pdiskcopy'
+          description: pdiskcopy has been created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '500':
+          description: Internal Server Error
+
+  /pdiskcopy/{pserviceID}:
+    get:
+      tags:
+        - pdiskcopy
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceID.path'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/pdiskcopy'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    patch:
+      tags:
+        - pdiskcopy
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceID.path'
+        - $ref: '#/parameters/pdiskcopy.body'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/pdiskcopy'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - pdiskcopy
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceID.path'
+      responses:
+        '204':
+          schema:
+            type: string
+          description: pdiskcopy was deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /pdiskcopies:
+    get:
+      tags:
+        - pdiskcopy
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/orderby'
+        - $ref: '#/parameters/desc'
+        - $ref: '#/parameters/pserviceFilter.clientID.query'
+        - $ref: '#/parameters/pserviceFilter.activedClient.query'
+        - $ref: '#/parameters/pserviceFilter.activedInitialTime.query'
+        - $ref: '#/parameters/pserviceFilter.activedFinishTime.query'
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/pdiskcopy'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          
+  /pdiskcopiescount:
+    get:
+      tags:
+        - pdiskcopy
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pserviceFilter.clientID.query'
+        - $ref: '#/parameters/pserviceFilter.activedClient.query'
+        - $ref: '#/parameters/pserviceFilter.activedInitialTime.query'
+        - $ref: '#/parameters/pserviceFilter.activedFinishTime.query'
+      responses:
+        '200':
+          schema:
+            type: integer
+          description: Count
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+
+  /messenger:
+    post:
+      tags:
+        - messenger
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/messenger.body'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/messenger'
+          description: Messenger has been created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '500':
+          description: Internal Server Error
+
+  /messenger/{messengerID}:
+    get:
+      tags:
+        - messenger
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/messengerID.path'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/messenger'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    patch:
+      tags:
+        - messenger
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/messengerID.path'
+        - $ref: '#/parameters/messenger.body'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/messenger'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - messenger
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/messengerID.path'
+      responses:
+        '204':
+          schema:
+            type: string
+          description: Messenger was deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /messengers:
+    get:
+      tags:
+        - messenger
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/offset'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/orderby'
+        - $ref: '#/parameters/desc'
+        - $ref: '#/parameters/messengerFilter.nameSubstr.query'
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/messenger'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          
+  /messengerscount:
+    get:
+      tags:
+        - messenger
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/messengerFilter.nameSubstr.query'
+      responses:
+        '200':
+          schema:
+            type: integer
+          description: Count
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+
+  /diskcategories:
+    get:
+      tags:
+        - freeinfo
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              type: string
+        '500':
+          description: Internal Server Error
+
+definitions:
+  
+  credentials:
+    properties:
+      Username:
+        maxLength: 50
+        format: string
+        type: string
+      Password:
+        maxLength: 50
+        format: password
+        type: string
+      Provider:
+        maxLength: 50
+        format: string
+        type: string
+  
+  jwtToken:
+    properties:
+      token:
+        format: string
+        type: string
+  
+  session:
+    properties:
+      User:
+        $ref: '#/definitions/user'
+      Token: 
+        format: string
+        type: string
+  
+  user:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      Provider:
+        maxLength: 100
+        format: character varying
+        type: string
+      Username:
+        maxLength: 100
+        format: character varying
+        type: string
+      Name:
+        maxLength: 100
+        format: character varying
+        type: string
+      Rol:
+        maxLength: 100
+        format: character varying
+        type: string
+      Enabled:
+        maxLength: 100
+        format: boolean
+        type: boolean
+ 
+  disk:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      Name:
+        maxLength: 100
+        format: character varying
+        type: string
+      SerialNumber:
+        maxLength: 255
+        format: character varying
+        type: string
+      Capacity:
+        format: integer
+        type: integer
+      Category:
+        maxLength: 50
+        format: character varying
+        type: string
+      Actived:
+        format: boolean
+        type: boolean
+
+  client:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      Identification:
+        maxLength: 100
+        format: character varying
+        type: string
+      Name:
+        maxLength: 100
+        format: character varying
+        type: string
+      Address:
+        maxLength: 1024
+        format: character varying
+        type: string
+      Phones:
+        maxLength: 100
+        format: character varying
+        type: string
+      Description:
+        maxLength: 1024
+        format: character varying
+        type: string
+      Actived:
+        format: boolean
+        type: boolean
+
+  pdiskreservation:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      ClientID:
+        format: integer
+        type: integer
+      ClientName:
+        format: character varying
+        type: string
+      InitialTime:
+        maxLength: 100
+        format: character varying
+        type: string
+      FinishTime:
+        maxLength: 100
+        format: character varying
+        type: string
+      Cost:
+        format: integer
+        type: integer
+      TurnWeekDay:
+        maxLength: 10
+        format: character varying
+        type: string
+      TurnNum:
+        format: integer
+        type: integer
+      DiskCategoryRequest:
+        maxLength: 50
+        format: character varying
+        type: string
+
+  pdiskcopy:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      ClientID:
+        format: integer
+        type: integer
+      ClientName:
+        format: character varying
+        type: string
+      InitialTime:
+        maxLength: 100
+        format: character varying
+        type: string
+      FinishTime:
+        maxLength: 100
+        format: character varying
+        type: string
+      Cost:
+        format: integer
+        type: integer
+
+  messenger:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      Name:
+        maxLength: 100
+        format: character varying
+        type: string
+
+  pmessagefordr:
+    properties:
+      ID:
+        format: integer
+        type: integer
+        description: |-
+          Note:
+          This is a Primary Key.<pk/>
+      MessengerID:
+        format: integer
+        type: integer
+      TurnWeekDay:
+        maxLength: 10
+        format: character varying
+        type: string
+      TurnNum:
+        format: integer
+        type: integer
+      SortPosition:
+        format: integer
+        type: integer
+      Type:
+        maxLength: 50
+        format: character varying
+        type: string
+      Notes:
+        maxLength: 500
+        format: character varying
+        type: string
+      PDiskReservationID:
+        format: integer
+        type: integer
+
+
+parameters:
+  offset:
+    name: offset
+    description: offset to paginate results
+    required: false
+    in: query
+    type: integer
+
+  limit:
+    name: limit
+    description: limit to paginate results
+    required: false
+    in: query
+    type: integer
+
+  orderby:
+    name: orderby
+    description: for sorting of results by some some property
+    required: false
+    in: query
+    type: string
+
+  desc:
+    name: desc
+    description: for sorting of results descendently(true) o ascendently(false) 
+    required: false
+    in: query
+    type: boolean
+  
+  credentials:
+    name: Credentials
+    description: for authentication
+    required: true
+    schema:
+      $ref: '#/definitions/credentials'
+    in: body
+  
+  authToken:
+    name: AuthToken
+    description: for authentication
+    required: false
+    in: header
+    type: string
+  
+
+  disk.body:
+    name: disk
+    description: Disk
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/disk'
+
+  diskID.path:
+    name: diskID
+    description: Disk
+    required: true
+    in: path
+    type: integer
+
+  diskFilter.capacity.query:
+    name: capacity
+    description: Capacity
+    required: false
+    in: query
+    type: integer
+
+  diskFilter.category.query:
+    name: category
+    description: Category
+    required: false
+    in: query
+    type: string
+
+  diskFilter.actived.query:
+    name: actived
+    description: Actived
+    required: false
+    in: query
+    type: boolean
+
+
+  client.body:
+    name: client
+    description: Client
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/client'
+      
+  clientID.path:
+    name: clientID
+    description: client
+    required: true
+    in: path
+    type: integer
+
+  clientFilter.identificationPrefix.query:
+    name: identificationPrefix
+    description: IdentificationPrefix
+    required: false
+    in: query
+    type: string
+
+  clientFilter.nameSubstr.query:
+    name: nameSubstr
+    description: NameSubstr
+    required: false
+    in: query
+    type: string
+
+  clientFilter.addressSubstr.query:
+    name: addressSubstr
+    description: AddressSubstr
+    required: false
+    in: query
+    type: string
+
+  clientFilter.phonesSubstr.query:
+    name: phonesSubstr
+    description: PhonesSubstr
+    required: false
+    in: query
+    type: string
+
+  clientFilter.descriptionSubstr.query:
+    name: descriptionSubstr
+    description: DescriptionSubstr
+    required: false
+    in: query
+    type: string
+
+  clientFilter.actived.query:
+    name: actived
+    description: Actived
+    required: false
+    in: query
+    type: boolean
+
+
+  pserviceID.path:
+    name: pserviceID
+    description: pservice
+    required: true
+    in: path
+    type: integer
+
+  pserviceFilter.clientID.query:
+    name: clientID
+    description: clientID
+    required: false
+    in: query
+    type: integer
+
+  pserviceFilter.activedClient.query:
+    name: activedClient
+    description: activedClient
+    required: false
+    in: query
+    type: boolean
+
+  pserviceFilter.activedInitialTime.query:
+    name: activedInitialTime
+    description: activedInitialTime
+    required: false
+    in: query
+    type: string
+  
+  pserviceFilter.activedFinishTime.query:
+    name: activedFinishTime
+    description: activedFinishTime
+    required: false
+    in: query
+    type: string
+
+
+  pdiskreservation.body:
+    name: pdiskreservation
+    description: pdiskreservation
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/pdiskreservation'
+
+  pdiskreservationFilter.diskCategoryRequest.query:
+    name: diskCategoryRequest
+    description: diskCategoryRequest
+    required: false
+    in: query
+    type: string
+
+  pdiskreservationFilter.turnWeekDay.query:
+    name: turnWeekDay
+    description: turnWeekDay
+    required: false
+    in: query
+    type: string
+
+  pdiskreservationFilter.turnNum.query:
+    name: turnNum
+    description: turnNum
+    required: false
+    in: query
+    type: integer
+
+
+  pdiskcopy.body:
+    name: pdiskcopy
+    description: pdiskcopy
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/pdiskcopy'
+
+
+  messenger.body:
+    name: messenger
+    description: messenger
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/messenger'
+      
+  messengerID.path:
+    name: messengerID
+    description: messenger
+    required: true
+    in: path
+    type: integer
+
+  messengerFilter.nameSubstr.query:
+    name: nameSubstr
+    description: NameSubstr
+    required: false
+    in: query
+    type: string

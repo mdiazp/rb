@@ -1,0 +1,69 @@
+<form [formGroup]="form">
+    <div>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input formControlName="name"
+              matInput
+              type="text"
+              maxlength="100"
+              required>
+        <mat-hint align="end">
+            {{nameControl.value?.length || 0}}/100
+        </mat-hint>
+        <mat-error>{{'Invalid'}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+          <mat-label>Direccion</mat-label>
+          <textarea formControlName="address"
+                    matInput
+                    type="text"
+                    required
+                    maxlength="100">
+          </textarea>
+          <mat-hint align="end">
+              {{addressControl.value?.length || 0}}/1024
+          </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+          <mat-label>Identificacion</mat-label>
+          <input formControlName="identification"
+                matInput
+                type="text"
+                maxlength="100">
+          <mat-hint align="end">
+            {{identificationControl.value?.length || 0}}/100
+          </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+          <mat-label>Telefonos</mat-label>
+          <textarea formControlName="phones"
+                    matInput
+                    type="text"
+                    maxlength="100">
+          </textarea>
+          <mat-hint align="end">
+              {{phonesControl.value?.length || 0}}/100
+          </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Descripcion</mat-label>
+        <textarea formControlName="description"
+                  matInput
+                  type="text"
+                  maxlength="100">
+        </textarea>
+        <mat-hint align="end">
+            {{descriptionControl.value?.length || 0}}/1024
+        </mat-hint>
+      </mat-form-field>
+
+      <mat-checkbox
+                    formControlName="actived"
+                    [labelPosition]="'before'"> Activo
+      </mat-checkbox>
+    </div>
+  </form>

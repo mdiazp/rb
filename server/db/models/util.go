@@ -55,7 +55,7 @@ func validateInt(es *[]ValidationError, value int,
 	}
 }
 
-func validateValue(es *[]ValidationError, propertyName string, valid bool) {
+func validateTrue(es *[]ValidationError, propertyName string, valid bool) {
 	if !valid {
 		*es = append(*es, ValidationError{
 			PropertyName: propertyName,

@@ -34,12 +34,12 @@ func makeClientFilter(db *gorm.DB, filter *ClientFilter) *gorm.DB {
 	if filter == nil {
 		return db
 	}
-	db = makePrefixFilter(db, filter.IdentificationPrefix, "identification")
-	db = makeSubstrFilter(db, filter.NameSubstr, "name")
-	db = makeSubstrFilter(db, filter.AddressSubstr, "address")
-	db = makeSubstrFilter(db, filter.PhonesSubstr, "phones")
-	db = makeSubstrFilter(db, filter.DescriptionSubstr, "description")
-	db = makeEqBoolFilter(db, filter.Actived, "actived")
+	db = makePrefixFilter(db, filter.IdentificationPrefix, "client.identification")
+	db = makeSubstrFilter(db, filter.NameSubstr, "client.name")
+	db = makeSubstrFilter(db, filter.AddressSubstr, "client.address")
+	db = makeSubstrFilter(db, filter.PhonesSubstr, "client.phones")
+	db = makeSubstrFilter(db, filter.DescriptionSubstr, "client.description")
+	db = makeEqBoolFilter(db, filter.Actived, "client.actived")
 
 	return db
 }
@@ -50,13 +50,13 @@ func (h *handler) CreateClient(o *models.Client) error {
 
 func (h *handler) RetrieveClientByID(id int) (*models.Client, error) {
 	o := &models.Client{}
-	e := h.Where("id = ?", id).First(o).Error
+	e := h.Where("client.id = ?", id).First(o).Error
 	return o, e
 }
 
 func (h *handler) RetrieveClientByIdentification(identification string) (*models.Client, error) {
 	o := &models.Client{}
-	e := h.Where("identification = ?", identification).First(o).Error
+	e := h.Where("client.identification = ?", identification).First(o).Error
 	return o, e
 }
 

@@ -12,7 +12,7 @@ func mnInvalidDisk() models.Disk {
 		SerialNumber: "",
 		Capacity:     0,
 		Category:     "",
-		Deleted:      false,
+		Actived:      false,
 	}
 }
 
@@ -22,7 +22,7 @@ func mxInvalidDisk() models.Disk {
 		SerialNumber: randString(255 + 1),
 		Capacity:     (1 << 30) + 1,
 		Category:     "",
-		Deleted:      true,
+		Actived:      true,
 	}
 }
 
@@ -32,7 +32,7 @@ func mnDisk() models.Disk {
 		SerialNumber: randString(1),
 		Capacity:     1,
 		Category:     models.DiskCategorySmall,
-		Deleted:      false,
+		Actived:      false,
 	}
 }
 
@@ -42,7 +42,7 @@ func mxDisk() models.Disk {
 		SerialNumber: randString(255),
 		Capacity:     (1 << 30),
 		Category:     models.DiskCategoryBig,
-		Deleted:      false,
+		Actived:      false,
 	}
 }
 
@@ -101,7 +101,7 @@ func testUpdateDisk() {
 		disk.SerialNumber = randString(10)
 		disk.Category = models.DiskCategorySmall
 		disk.Capacity = 1
-		disk.Deleted = true
+		disk.Actived = true
 
 		e = db.UpdateDisk(&disk)
 		pe(e)
