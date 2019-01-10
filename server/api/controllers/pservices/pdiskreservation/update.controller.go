@@ -5,6 +5,7 @@ import (
 
 	"github.com/mdiazp/rb/server/api"
 	"github.com/mdiazp/rb/server/api/controllers"
+	"github.com/mdiazp/rb/server/core"
 	"github.com/mdiazp/rb/server/db/models"
 )
 
@@ -47,6 +48,11 @@ func (c *updateController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	o.ID = id
 
 	verificatePDiskReservationExistence(c, w, id)
+
+	c.WE400(w, o.Valid())
+
+	o.InitialTime = core.MoveDateToNextWeekDay(o.InitialTime, o.TurnWeekDay)
+	o.FinishTime = core.MoveDateToPreviousWeekDay(o.FinishTime, o.TurnWeekDay)
 
 	c.WE400(w, o.Valid())
 

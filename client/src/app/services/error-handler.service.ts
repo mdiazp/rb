@@ -71,7 +71,8 @@ export class ErrorHandlerService {
         message: msg,
         icon: 'error',
         style: 'error'
-      }
+      },
+      duration: 1000000,
     });
   }
 }

@@ -5,8 +5,11 @@ import (
 )
 
 func main() {
+	addSeveralPDRs()
+	// deleteAllPDRs()
+
 	// testCreateDisk()
-	testUpdateDisk()
+	// testUpdateDisk()
 	// testDeleteDisk()
 	/*
 		for i := 0; i < 100; i++ {

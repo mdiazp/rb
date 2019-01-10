@@ -154,11 +154,10 @@ func (b *base) GetQTime(w http.ResponseWriter, r *http.Request,
 		return nil
 	}
 
-	v, e := time.Parse("2006-01-02T15:04:05-05:00", *vs)
+	v, e := time.Parse("2006-01-02", *vs)
 	if e != nil {
-		b.WE400(w, b.MakeValidationError(vname, "Value Format must be 2006-01-02T15:04:05Z07:00"))
+		b.WE400(w, b.MakeValidationError(vname, "Value Format must be 2006-01-02"))
 	}
-	fmt.Println("GetQTime() = ", v.String())
 	return &v
 }
 

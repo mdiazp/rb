@@ -6,3 +6,4 @@ export { Credentials } from './credentials';
 export { Session } from './session';
 export { ValidationError } from './validationError';
 export * from './rols-and-permissions';
+export * from './util';

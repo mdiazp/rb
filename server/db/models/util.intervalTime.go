@@ -4,8 +4,8 @@ import "time"
 
 // IntervalTime ...
 type IntervalTime struct {
-	InitialTime time.Time `gorm:"column:initial_time; not null"`
-	FinishTime  time.Time `gorm:"column:finish_time; not null"`
+	InitialTime time.Time `gorm:"column:initial_time; type: date; not null"`
+	FinishTime  time.Time `gorm:"column:finish_time; type: date; not null"`
 }
 
 // Valid ...
@@ -20,8 +20,8 @@ func (o *IntervalTime) Valid() *[]ValidationError {
 // GetMinTimeValue ...
 func GetMinTimeValue() time.Time {
 	mn, _ := time.Parse(
-		"2006-01-02T15:04:05Z07:00",
-		"1900-01-01T00:00:00Z",
+		"2006-01-02",
+		"1900-01-01",
 	)
 
 	return mn
@@ -30,8 +30,8 @@ func GetMinTimeValue() time.Time {
 // GetMaxTimeValue ...
 func GetMaxTimeValue() time.Time {
 	mx, _ := time.Parse(
-		"2006-01-02T15:04:05Z07:00",
-		"2100-12-31T23:59:59Z",
+		"2006-01-02",
+		"2100-12-31",
 	)
 
 	return mx

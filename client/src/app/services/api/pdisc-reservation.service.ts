@@ -11,18 +11,20 @@ import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
-  PDiscReservation,
+  PDiscReservation, Util,
 } from '../../models/core';
 
 import { SessionService } from '../session.service';
 import { APIService } from './api.service';
 import { Paginator, OrderBy } from './util';
 import { isNullOrUndefined } from 'util';
+import { discardPeriodicTasks } from '@angular/core/testing';
 
 @Injectable()
 export class APIPDiscReservationService extends APIService {
   constructor(protected http: Http,
-              protected session: SessionService) {
+              protected session: SessionService,
+              protected util: Util) {
     super(http, session);
   }
 
@@ -44,10 +46,26 @@ export class APIPDiscReservationService extends APIService {
 
   public GetPDiscReservations(filter?: PDiscReservationFilter): Observable<PDiscReservation[]> {
     if ( filter && filter !== null ) {
-      return this.get('/pdiskreservations', { params: filter.GetUSP() });
+      return this.get('/pdiskreservations', { params: filter.GetUSP() }).pipe(
+        map(res => this.parseList(res)),
+      );
     } else {
-      return this.get('/pdiskreservations');
+      return this.get('/pdiskreservations').pipe(
+        map(res => this.parseList(res)),
+      );
     }
+  }
+
+  parseList(list: any[]): PDiscReservation[] {
+    let result: PDiscReservation[]; result = [];
+    for (let i = 0; i < list.length; i++ ) {
+      // list[i].InitialTime = new Date(list[i].InitialTime);
+      list[i].InitialTime = this.util.NewDate(list[i].InitialTime);
+      // list[i].FinishTime = new Date(list[i].FinishTime);
+      list[i].FinishTime = this.util.NewDate(list[i].FinishTime);
+      list[i].TurnWeekDay = this.util.GetWeekDayDisplayValue(list[i].TurnWeekDay);
+    }
+    return list;
   }
 
   public GetPDiscReservationsCount(filter?: PDiscReservationFilter): Observable<number> {
@@ -60,6 +78,8 @@ export class APIPDiscReservationService extends APIService {
 }
 
 export class PDiscReservationFilter {
+  private util = new Util();
+
   constructor(
     public ClientID: number,
     public ActivedClient: boolean,
@@ -82,10 +102,16 @@ export class PDiscReservationFilter {
       usp.append('activedClient', this.ActivedClient.toString());
     }
     if ( !isNullOrUndefined(this.ActivedInitialTime) ) {
-      usp.append('activedInitialTime', this.ActivedInitialTime.toString());
+      usp.append(
+        'activedInitialTime',
+        this.util.FormatDateToSendToApi(this.ActivedInitialTime)
+      );
     }
     if ( !isNullOrUndefined(this.ActivedFinishTime) ) {
-      usp.append('activedFinishTime', this.ActivedFinishTime.toString());
+      usp.append(
+        'activedFinishTime',
+        this.util.FormatDateToSendToApi(this.ActivedFinishTime)
+      );
     }
     if ( !isNullOrUndefined(this.DiskCategoryRequest) && this.DiskCategoryRequest !== '' ) {
       usp.append('diskCategoryRequest', this.DiskCategoryRequest.toString());

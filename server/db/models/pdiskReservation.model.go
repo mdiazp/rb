@@ -28,10 +28,12 @@ func (o *PDiskReservation) Valid() *[]ValidationError {
 			ValidateDiskCategory(o.DiskCategoryRequest))
 	}
 
-	validateTrue(&es, "InitialTime",
-		o.InitialTime.Weekday().String() == (string)(o.TurnWeekDay))
-	validateTrue(&es, "FinishTime",
-		o.FinishTime.Weekday().String() == (string)(o.TurnWeekDay))
+	/*
+		validateTrue(&es, "InitialTime",
+			o.InitialTime.Weekday().String() == (string)(o.TurnWeekDay))
+		validateTrue(&es, "FinishTime",
+			o.FinishTime.Weekday().String() == (string)(o.TurnWeekDay))
+	*/
 
 	es = append(es, *(o.Turn.Valid())...)
 

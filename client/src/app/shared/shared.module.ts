@@ -21,9 +21,12 @@ import {
   APIAccountService,
   APIDiskService,
   APIClientService,
+  APIPDiscReservationService,
   FeedbackHandlerService,
+  APIFreeInfoService,
 } from '../services/core';
 import { DemoMaterialModule } from '../demo-material-module';
+import { Util } from '../models/util';
 // import { APIAccountService } from '../services/api/account.services';
 
 
@@ -43,8 +46,8 @@ import { DemoMaterialModule } from '../demo-material-module';
     AccordionLinkDirective,
     AccordionDirective,
     CustomSnackbarComponent,
-   ],
-   entryComponents: [
+  ],
+  entryComponents: [
     CustomSnackbarComponent,
   ],
   providers: [
@@ -61,6 +64,10 @@ import { DemoMaterialModule } from '../demo-material-module';
     APIAccountService,
     APIDiskService,
     APIClientService,
+    APIPDiscReservationService,
+    APIFreeInfoService,
+
+    Util,
 
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 4000}}
   ]

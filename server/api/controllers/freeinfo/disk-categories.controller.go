@@ -27,7 +27,7 @@ type retrieveDiskCategoriesController struct {
 }
 
 func (c *retrieveDiskCategoriesController) GetRoute() string {
-	return "/diskcategories"
+	return "/disc-categories-info"
 }
 
 func (c *retrieveDiskCategoriesController) GetMethods() []string {
@@ -41,5 +41,16 @@ func (c *retrieveDiskCategoriesController) GetAccess() controllers.Permission {
 
 // ServeHTTP ...
 func (c *retrieveDiskCategoriesController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	c.WR(w, 200, models.GetDiskCategories())
+	x := DiscCategories{
+		DiscCategories:          models.GetDiskCategories(),
+		DiscCategoryRequestNull: models.DiskCategoryRequestNull,
+	}
+	c.WR(w, 200, x)
+
+}
+
+// DiscCategories ...
+type DiscCategories struct {
+	DiscCategories          []models.DiskCategory
+	DiscCategoryRequestNull models.DiskCategory
 }

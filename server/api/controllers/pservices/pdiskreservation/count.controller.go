@@ -27,7 +27,7 @@ type countController struct {
 }
 
 func (c *countController) GetRoute() string {
-	return "/pdiskreservationcount"
+	return "/pdiskreservationscount"
 }
 
 func (c *countController) GetMethods() []string {

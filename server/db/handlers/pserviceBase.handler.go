@@ -34,8 +34,8 @@ func makePServiceBaseFilter(db *gorm.DB, filter *PServiceBaseFilter, tableName s
 		db = db.Where("NOT("+
 			tableName+".finish_time < ? OR ? < "+tableName+".initial_time"+
 			")",
-			filter.ActivedIntervalTime.InitialTime.Format("2006-01-02 15:04:05"),
-			filter.ActivedIntervalTime.FinishTime.Format("2006-01-02 15:04:05"),
+			filter.ActivedIntervalTime.InitialTime.Format("2006-01-02"),
+			filter.ActivedIntervalTime.FinishTime.Format("2006-01-02"),
 		)
 	}
 

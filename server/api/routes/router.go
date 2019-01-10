@@ -65,6 +65,8 @@ func Router(base api.Base) http.Handler {
 		pdiskcopy.NewCountController(base),
 
 		freeinfo.NewRetrieveDiskCategoriesController(base),
+		freeinfo.NewRetrieveTurnNumsController(base),
+		freeinfo.NewServerTimeController(base),
 	}
 
 	router := mux.NewRouter()

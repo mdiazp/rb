@@ -1,0 +1,170 @@
+<br/>
+
+<mat-accordion class="list-filter-accordion list-wrapper-item">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>filter_list</mat-icon> Filtrar
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <app-client-selector></app-client-selector>
+
+        <mat-form-field>
+          <input  matInput
+                  [matDatepicker]="initialDatePicker"
+                  placeholder="Fecha Inicial"
+                  (dateInput)="InitialDatePickerChange($event)"
+                  #initalDateFilter>
+          <mat-datepicker-toggle matSuffix [for]="initialDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #initialDatePicker [startAt]="this.serverTime"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input  matInput
+                  [matDatepicker]="finishDatePicker"
+                  placeholder="Fecha Final"
+                  (dateInput)="FinishDatePickerChange($event)"
+                  #finishDateFilter>
+          <mat-datepicker-toggle matSuffix [for]="finishDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #finishDatePicker [startAt]="this.serverTime"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select #weekDayFilter
+                      placeholder="Dia de la semana"
+                      [value]="'all'">
+            <mat-option [value]="'all'">
+              Todos
+            </mat-option>
+            <mat-option *ngFor="let wd of wds"
+                        [value]="wd.Value">
+              {{wd.DisplayValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select #turnNumFilter
+                      placeholder="Numero de turno"
+                      [value]="'all'">
+            <mat-option [value]="'all'">
+              Todos
+            </mat-option>
+            <mat-option *ngFor="let t of turnNums"
+                        [value]="t">
+              {{t}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select #activedClientFilter
+                      placeholder="Clientes Activos"
+                      [value]="'all'">
+            <mat-option [value]="'all'">
+              Todos
+            </mat-option>
+            <mat-option [value]="true">
+              Si
+            </mat-option>
+            <mat-option [value]="false">
+              No
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select #discCategoryRequestFilter
+                      placeholder="Categoria de disco requerida"
+                      [value]="'all'">
+            <mat-option [value]="'all'">
+              Todos
+            </mat-option>
+            <mat-option [value]="dcrn.Value">
+              {{dcrn.DisplayValue}}
+            </mat-option>
+            <mat-option *ngFor="let dc of dcis"
+                        [value]="dc.Value">
+              {{dc.DisplayValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+    </mat-expansion-panel>
+</mat-accordion>
+
+<section class="list-table list-wrapper-item
+                table-scrollable-horizontal-container">
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>
+          Id
+        </mat-header-cell>
+        <mat-cell class="name-cell"
+                  *matCellDef="let o">
+          {{o.ID}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="clientName">
+          <mat-header-cell *matHeaderCellDef>
+            Client
+          </mat-header-cell>
+          <mat-cell class="name-cell"
+                    *matCellDef="let o">
+            {{o.ClientName}}
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="initialTime">
+          <mat-header-cell *matHeaderCellDef>
+            Inicio
+          </mat-header-cell>
+          <mat-cell class="name-cell"
+                    *matCellDef="let o">
+            {{this.DateFormat(o.InitialTime)}}
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="finishTime">
+        <mat-header-cell *matHeaderCellDef>
+          Fin
+        </mat-header-cell>
+        <mat-cell class="name-cell"
+                  *matCellDef="let o">
+          {{this.DateFormat(o.FinishTime)}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="turn">
+          <mat-header-cell *matHeaderCellDef>
+            Turno
+          </mat-header-cell>
+          <mat-cell class="name-cell"
+                    *matCellDef="let o">
+            {{o.TurnWeekDay + ' - T' + o.TurnNum.toString()}}
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cost">
+          <mat-header-cell *matHeaderCellDef>
+            Costo
+          </mat-header-cell>
+          <mat-cell class="name-cell"
+                    *matCellDef="let o">
+            {{o.Cost}}
+          </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </mat-table>
+
+  <mat-paginator [length]="(dataSource.count$ | async)" [pageSize]="initialPageSize"
+                  [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</section>

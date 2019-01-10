@@ -11,10 +11,13 @@ import { map } from 'rxjs/operators';
 
 import { SessionService } from '../session.service';
 import { isNullOrUndefined } from 'util';
+import { Util } from '../../models/util';
 
 export class APIService {
     protected APIPath = 'http://api.rb.local:1234';
     protected AuthTokenHeader = 'AuthToken';
+
+    protected util = new Util();
 
     constructor(protected http: Http,
                 protected session: SessionService) {

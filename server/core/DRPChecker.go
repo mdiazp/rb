@@ -8,8 +8,8 @@ import (
 )
 
 // CheckPDR ...
-func CheckPDR(pdiskReservations []models.PDiskReservation, totals []TotDC) ([]PDRFreeTurn, []PDRConflict) {
-
+func CheckPDR(pdiskReservations []models.PDiskReservation,
+	totals []TotDC) ([]PDRFreeTurn, []PDRConflict) {
 	ps := make([]pdrX, 0)
 	nps := len(ps)
 

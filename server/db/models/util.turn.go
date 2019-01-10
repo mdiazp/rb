@@ -6,12 +6,12 @@ type WeekDay string
 const (
 	// Monday ...
 	Monday WeekDay = "Monday"
-	// Thursday ...
-	Thursday WeekDay = "Thursday"
-	// Wednesday ...
-	Wednesday WeekDay = "Wednesday"
 	// Tuesday ...
 	Tuesday WeekDay = "Tuesday"
+	// Wednesday ...
+	Wednesday WeekDay = "Wednesday"
+	// Thursday ...
+	Thursday WeekDay = "Thursday"
 	// Friday ...
 	Friday WeekDay = "Friday"
 	// Saturday ...
@@ -24,9 +24,9 @@ const (
 func GetWeekDays() []WeekDay {
 	return []WeekDay{
 		Monday,
-		Thursday,
-		Wednesday,
 		Tuesday,
+		Wednesday,
+		Thursday,
 		Friday,
 		Saturday,
 		Sunday,

@@ -1,6 +1,7 @@
 package pdiskreservation
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/mdiazp/rb/server/api"
@@ -42,9 +43,15 @@ func (c *createController) GetAccess() controllers.Permission {
 
 // ServeHTTP ...
 func (c *createController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("--------->  CreatePDiskReservation init")
+
 	var o models.PDiskReservation
 	c.ReadJSON(w, r, &o)
 	o.ID = 0
+
+	fmt.Println("---------> finish to ReadJSON ")
+
+	c.WE400(w, o.Valid())
 
 	o.InitialTime = core.MoveDateToNextWeekDay(o.InitialTime, o.TurnWeekDay)
 	o.FinishTime = core.MoveDateToPreviousWeekDay(o.FinishTime, o.TurnWeekDay)
