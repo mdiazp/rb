@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Disk } from '../../../../models/core';
+import { Disk, Util } from '../../../../models/core';
 
 @Component({
   selector: 'app-disk-info',
@@ -7,6 +7,8 @@ import { Disk } from '../../../../models/core';
   styleUrls: ['./disk-info.component.css']
 })
 export class DiskInfoComponent implements OnInit {
+
+  modelUtil = new Util();
 
   @Input() disk: Disk;
 

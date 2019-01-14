@@ -11,7 +11,6 @@ import (
 func CheckPDR(pdiskReservations []models.PDiskReservation,
 	totals []TotDC) ([]PDRFreeTurn, []PDRConflict) {
 	ps := make([]pdrX, 0)
-	nps := len(ps)
 
 	for _, p := range pdiskReservations {
 		ps = append(ps, pdrX{
@@ -25,6 +24,8 @@ func CheckPDR(pdiskReservations []models.PDiskReservation,
 	}
 
 	sort.Sort(pdrXs(ps))
+
+	nps := len(ps)
 
 	wds := models.GetWeekDays()
 	nwd := len(wds)
@@ -154,40 +155,4 @@ func init3d(n, m, k int) *[][][]int {
 		}
 	}
 	return &x
-}
-
-type pdrX struct {
-	models.PDiskReservation
-	ini bool
-}
-
-func (x *pdrX) GetTime() time.Time {
-	if x.ini {
-		return x.InitialTime
-	}
-	return x.FinishTime
-}
-
-// pdrXs ...
-type pdrXs []pdrX
-
-// Len ...
-func (pdrXs pdrXs) Len() int {
-	return len(pdrXs)
-}
-
-// Swap ...
-func (pdrXs pdrXs) Swap(i, j int) {
-	pdrXs[i], pdrXs[j] = pdrXs[j], pdrXs[i]
-}
-
-// Less ...
-func (pdrXs pdrXs) Less(i, j int) bool {
-	if !pdrXs[i].GetTime().Equal(pdrXs[j].GetTime()) {
-		return pdrXs[i].GetTime().Before(pdrXs[j].GetTime())
-	}
-	if pdrXs[i].TurnNum != pdrXs[j].TurnNum {
-		return pdrXs[i].TurnNum < pdrXs[j].TurnNum
-	}
-	return pdrXs[i].ini
 }

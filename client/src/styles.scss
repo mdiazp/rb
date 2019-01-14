@@ -126,3 +126,65 @@ a {
   // width: 10%;
   flex: 0 1 auto;
 }
+
+////////////////////////////////////////////////////////////////////////
+mat-list.pdr-calendar-state {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  margin-bottom: 40px;
+  padding-top: 0;
+}
+
+.pdr-calendar-state-header {
+  display: flex;
+  flex-flow: row wrap;
+  background: #1e88e5;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.pdr-calendar-state-header-wrong {
+  background: #D8000C;
+}
+
+mat-list.pdr-calendar-state > mat-divider.custom {
+  position: inherit;
+}
+
+.pdr-calendar-state-pdr-item {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 10px;
+  padding: 10px;
+}
+
+.pdr-calendar-state-pdr-item-client-name {
+  flex: 1 1 auto;
+  margin-right: 20px;
+}
+
+.pdr-calendar-state-pdr-item-dcrequest {
+  flex: 0 1 auto;
+}
+
+.pdr-calendar-state-null {
+  text-align: center;
+}
+
+.pdr-calendar-state-dcrr-list {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.pdr-calendar-state-dcrr-list-item {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: column;
+  padding: 10px;
+  text-align: center;
+}
+
+.pdr-calendar-state-dcrr-list-item > div {
+  margin: 5px;
+}

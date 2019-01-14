@@ -44,10 +44,26 @@ export class APIDiskService extends APIService {
 
   public GetDisks(filter?: DiskFilter): Observable<Disk[]> {
     if ( filter && filter !== null ) {
-      return this.get('/disks', { params: filter.GetUSP() });
+      return this.get('/disks', { params: filter.GetUSP() }).pipe(
+        map(res => this.parseList(res))
+      );
     } else {
-      return this.get('/disks');
+      return this.get('/disks').pipe(
+        map(res => this.parseList(res))
+      );
     }
+  }
+
+  parseList(discs: Disk[]): Disk[] {
+    for (let i = 0; i < discs.length; i++) {
+      discs[i] = this.parseDisk(discs[i]);
+    }
+    return discs;
+  }
+
+  parseDisk(d: Disk): Disk {
+    d.Category = this.util.GetDiscCategoryDisplayValue(d.Category);
+    return d;
   }
 
   public GetDisksCount(filter?: DiskFilter): Observable<number> {

@@ -1,3 +1,78 @@
-<p>
-  disc-reservations-calendar works!
-</p>
+  <br/>
+
+  <mat-form-field>
+      <mat-select #weekDayFilter
+                placeholder="Dia de la semana"
+                [value]="initialWD.Value">
+      <mat-option *ngFor="let wd of wds"
+                  [value]="wd.Value">
+        {{wd.DisplayValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select #turnNumFilter
+                placeholder="Numero de turno"
+                [value]="initialTN">
+      <mat-option *ngFor="let t of turnNums"
+                  [value]="t">
+        {{t}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br/>
+
+  <mat-list *ngFor="let state of calendar" class="pdr-calendar-state">
+    <div class="pdr-calendar-state-header"
+        [ngClass]="{'pdr-calendar-state-header-wrong': !this.isGoodState(state)}">
+      <h3 mat-subheader style="color: white; margin-top: 0;">
+        {{this.modelUtil.FormatDateToDisplay(state.Date)}}
+      </h3>
+    </div>
+
+    <mat-divider class="custom"></mat-divider>
+
+    <div class="pdr-calendar-state-pdr-item" *ngFor="let pdr of state.PDRs">
+        <div class="pdr-calendar-state-pdr-item-client-name">{{pdr.ClientName}}</div>
+        <!--div style="flex: 0 1 auto; margin-right: 30px;">
+          {{this.modelUtil.FormatDateToDisplay(pdr.InitialTime)}} ->
+          {{this.modelUtil.FormatDateToDisplay(pdr.FinishTime)}}
+        </div-->
+        <span class="flex-space"></span>
+        <div class="pdr-calendar-state-pdr-item-dcrequest">{{pdr.DiskCategoryRequest}}</div>
+    </div>
+    <div *ngIf="state.PDRs.length === 0" class="pdr-calendar-state-null">
+      <h4 mat-line>No hay reservaciones en este periodo</h4>
+    </div>
+
+    <mat-divider class="custom"></mat-divider>
+
+    <div class="pdr-calendar-state-dcrr-list">
+      <div *ngFor="let dcrr of state.DCRR"
+           class="pdr-calendar-state-dcrr-list-item">
+        <div>
+          {{this.modelUtil.GetDiscCategoryDisplayValue(dcrr.Category)}}
+        </div>
+        <div>
+          <span [ngStyle]="{'color': (dcrr.DCRTotal > dcrr.DCTotal ? '#D8000C' : 'inherit')}">
+            {{dcrr.DCRTotal}}
+          </span> / {{dcrr.DCTotal}}</div>
+      </div>
+      <div class="pdr-calendar-state-dcrr-list-item">
+        <div>
+          {{this.modelUtil.GetDiskCategoryRequestNull().DisplayValue}}
+        </div>
+        <div>{{state.DCRNullTotal}}</div>
+      </div>
+      <span class="flex-space"></span>
+      <div class="pdr-calendar-state-dcrr-list-item">
+        <div>Total</div>
+        <div>
+          <span [ngStyle]="{'color': (state.PDRs.length > state.DiscsTotal ? '#D8000C' : 'inherit')}">
+            {{state.PDRs.length}}
+          </span> / {{state.DiscsTotal}}</div>
+      </div>
+    </div>
+  </mat-list>

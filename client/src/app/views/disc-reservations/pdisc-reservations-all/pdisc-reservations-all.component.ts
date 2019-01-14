@@ -89,12 +89,11 @@ export class PDiscReservationsAllComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
-    this.weekDayFilter.optionSelectionChanges.subscribe((_) => this.ToFilter());
-    this.turnNumFilter.optionSelectionChanges.subscribe((_) => this.ToFilter());
-    this.clientSelector.selectionChanges.subscribe((_) => this.ToFilter());
-    this.activedClientFilter.valueChange.subscribe((_) => this.ToFilter());
-    this.discCategoryRequestFilter.valueChange.subscribe((_) => this.ToFilter());
+    this.weekDayFilter.valueChange.subscribe(() => this.ToFilter());
+    this.turnNumFilter.valueChange.subscribe(() => this.ToFilter());
+    this.clientSelector.selectionChanges.subscribe(() => this.ToFilter());
+    this.activedClientFilter.valueChange.subscribe(() => this.ToFilter());
+    this.discCategoryRequestFilter.valueChange.subscribe(() => this.ToFilter());
     this.paginator.page.pipe(tap(() => this.load(false))).subscribe();
 
     this.completeFiltersInitialization = true;
@@ -119,7 +118,6 @@ export class PDiscReservationsAllComponent implements OnInit, AfterViewInit {
     if ( !this.completeFiltersInitialization ) {
       return;
     }
-    console.log('load');
 
     let clientID: number; clientID = 0;
     if ( this.clientSelector.ValidSelection() ) {

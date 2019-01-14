@@ -76,6 +76,14 @@
               </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="category">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Categoria</mat-header-cell>
+              <mat-cell class="name-cell"
+                        *matCellDef="let o">
+                {{o.Category}}
+              </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="operations">
                 <mat-header-cell *matHeaderCellDef
                                  class="table-delete-operation-column">

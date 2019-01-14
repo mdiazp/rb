@@ -443,6 +443,27 @@ paths:
         '500':
           description: Internal Server Error
 
+  /pdisk-reservation/calendar/{weekDay}/{turnNum}:
+    get:
+      tags:
+        - pdiskreservation
+      parameters:
+        - $ref: '#/parameters/authToken'
+        - $ref: '#/parameters/pdiskreservation.turnWeekDay.path'
+        - $ref: '#/parameters/pdiskreservation.turnNum.path'
+      responses:
+        '200':
+          schema:
+            type: integer
+          description: Count
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbbiden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 
   /pdiskcopy:
     post:
@@ -1140,11 +1161,25 @@ parameters:
     in: query
     type: string
 
+  pdiskreservation.turnWeekDay.path:
+    name: weekDay
+    description: turnWeekDay
+    required: true
+    in: path
+    type: string
+
   pdiskreservationFilter.turnNum.query:
     name: turnNum
     description: turnNum
     required: false
     in: query
+    type: integer
+
+  pdiskreservation.turnNum.path:
+    name: turnNum
+    description: turnNum
+    required: true
+    in: path
     type: integer
 
 

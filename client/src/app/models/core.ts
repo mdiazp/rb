@@ -1,4 +1,5 @@
 export { PDiscReservation } from './pdisc-reservation';
+export * from './pdisc-reservation-calendar-util';
 export { Disk } from './disk';
 export { Client } from './client';
 export { User } from './user';

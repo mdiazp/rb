@@ -17,6 +17,8 @@ type DiskHandler interface {
 	RetrieveDiskList(filter *DiskFilter,
 		orderBy *OrderBy, pag *Paginator) (*[]models.Disk, error)
 	CountDisks(filter *DiskFilter) (count int, e error)
+
+	GetTotalsByDiscCategory() (map[string]int, int, error)
 }
 
 // DiskFilter ...
@@ -87,4 +89,24 @@ func (h *handler) RetrieveDiskList(filter *DiskFilter,
 func (h *handler) CountDisks(filter *DiskFilter) (count int, e error) {
 	e = makeDiskFilter(h.DB.Model(&models.Disk{}), filter).Count(&count).Error
 	return
+}
+
+func (h *handler) GetTotalsByDiscCategory() (map[string]int, int, error) {
+	vtrue := true
+	discs, e := h.RetrieveDiskList(
+		&DiskFilter{
+			Actived: &vtrue,
+		},
+		nil, nil,
+	)
+	if e != nil {
+		return nil, 0, e
+	}
+	T := 0
+	totals := make(map[string]int)
+	for _, d := range *discs {
+		totals[string(d.Category)]++
+		T++
+	}
+	return totals, T, nil
 }

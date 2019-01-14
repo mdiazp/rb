@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
-  PDiscReservation, Util,
+  PDiscReservation, Util, PDRTurnCalendarState,
 } from '../../models/core';
 
 import { SessionService } from '../session.service';
@@ -56,14 +56,24 @@ export class APIPDiscReservationService extends APIService {
     }
   }
 
+  public GetCalendar(weekDay: string, turnNum: number): Observable<PDRTurnCalendarState[]> {
+    return this.get(`/pdisk-reservation/calendar/${weekDay}/${turnNum}`).pipe(
+      map(res => {
+        for (let i = 0; i < res.length; i++) {
+          res[i].Date = this.util.NewDate(res[i].Date);
+          res[i].PDRs = this.parseList(res[i].PDRs);
+        }
+        return res;
+      })
+    );
+  }
+
   parseList(list: any[]): PDiscReservation[] {
-    let result: PDiscReservation[]; result = [];
     for (let i = 0; i < list.length; i++ ) {
-      // list[i].InitialTime = new Date(list[i].InitialTime);
       list[i].InitialTime = this.util.NewDate(list[i].InitialTime);
-      // list[i].FinishTime = new Date(list[i].FinishTime);
       list[i].FinishTime = this.util.NewDate(list[i].FinishTime);
       list[i].TurnWeekDay = this.util.GetWeekDayDisplayValue(list[i].TurnWeekDay);
+      list[i].DiskCategoryRequest = this.util.GetDiscCategoryDisplayValue(list[i].DiskCategoryRequest);
     }
     return list;
   }

@@ -3,11 +3,6 @@ export interface ValueAndDisplay {
   DisplayValue: string;
 }
 
-export interface WeekDayInfo {
-  Value: string;
-  DisplayValue: string;
-}
-
 export class Util {
   constructor() {}
 
@@ -22,19 +17,29 @@ export class Util {
     return { Value: 'NULL', DisplayValue: 'Sin especificar' };
   }
 
+  GetDiscCategoryDisplayValue(discCategoryValue: string): string {
+    const dcs = this.GetDiscCategoriesInfo();
+    for ( let i = 0; i < dcs.length; i++ ) {
+      if ( dcs[i].Value === discCategoryValue ) {
+        return dcs[i].DisplayValue;
+      }
+    }
+    return this.GetDiskCategoryRequestNull().DisplayValue;
+  }
+
   GetTurnNums(): number[] {
     return [1, 2, 3, 4, 5];
   }
 
   GetWeekDaysInfo(): ValueAndDisplay[] {
     return [
+      { Value: 'Sunday', DisplayValue: 'Domingo' },
       { Value: 'Monday', DisplayValue: 'Lunes' },
       { Value: 'Tuesday', DisplayValue: 'Martes' },
       { Value: 'Wednesday', DisplayValue: 'Miercoles' },
       { Value: 'Thursday', DisplayValue: 'Jueves' },
       { Value: 'Friday', DisplayValue: 'Viernes' },
       { Value: 'Saturday', DisplayValue: 'Sabado' },
-      { Value: 'Sunday', DisplayValue: 'Domingo' },
     ];
   }
 

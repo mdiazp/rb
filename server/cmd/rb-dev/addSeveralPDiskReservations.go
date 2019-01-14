@@ -46,7 +46,7 @@ func addSeveralPDRs() {
 	clients := *getClients()
 	costs := []int{0, 25, 50}
 
-	n := 10
+	n := 1000
 
 	for i := 0; i < n; i++ {
 		iniTime := now()
@@ -93,12 +93,12 @@ func addSeveralPDRs() {
 
 		db.CreatePDiskReservation(&pdr)
 
-		fmt.Printf(
+		/*fmt.Printf(
 			"%d %s %s\n",
 			pdr.ID,
 			pdr.InitialTime.Format("2006-01-02"),
 			pdr.FinishTime.Format("2006-01-02"),
-		)
+		)*/
 	}
 }
 

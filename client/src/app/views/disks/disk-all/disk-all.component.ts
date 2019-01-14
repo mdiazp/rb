@@ -29,7 +29,7 @@ export class DiskAllComponent implements OnInit, AfterViewInit {
 
   dataSource: DisksDataSource;
   // displayedColumns= ['id', 'name', 'description', 'actived', 'operations'];
-  displayedColumns= ['name', 'capacity', 'operations'];
+  displayedColumns= ['name', 'category', 'capacity', 'operations'];
 
 
   @ViewChild(MatSort) sort: MatSort;

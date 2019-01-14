@@ -1,15 +1,85 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { Util, ValueAndDisplay } from '../../../models/util';
+import { MatSelect } from '@angular/material';
+import { ErrorHandlerService, APIPDiscReservationService, APIFreeInfoService } from '../../../services/core';
+import { BehaviorSubject } from 'rxjs';
+import { PDRTurnCalendarState } from '../../../models/core';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-disc-reservations-calendar',
   templateUrl: './disc-reservations-calendar.component.html',
   styleUrls: ['./disc-reservations-calendar.component.css']
 })
-export class DiscReservationsCalendarComponent implements OnInit {
+export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  private loadingSubject = new BehaviorSubject<boolean>(true);
+  loading$ = this.loadingSubject.asObservable();
 
-  ngOnInit() {
+  modelUtil = new Util();
+  wds = this.modelUtil.GetWeekDaysInfo();
+  initialWD = this.wds[0];
+  turnNums = this.modelUtil.GetTurnNums();
+  initialTN = this.turnNums[0];
+
+  currentDate = new Date();
+
+  calendar: PDRTurnCalendarState[] = [];
+
+  @ViewChild('weekDayFilter') weekDayFilter: MatSelect;
+  @ViewChild('turnNumFilter') turnNumFilter: MatSelect;
+
+  constructor(private api: APIPDiscReservationService,
+              private apiFree: APIFreeInfoService,
+              private eh: ErrorHandlerService) {}
+
+  ngOnInit() {}
+
+  ngAfterViewInit(): void {
+    this.weekDayFilter.valueChange.subscribe(() => this.load());
+    this.turnNumFilter.valueChange.subscribe(() => this.load());
+
+    this.apiFree.GetServerTime().subscribe(
+      (currentDate) => {
+        this.currentDate = currentDate;
+        this.initialWD = this.modelUtil.GetWeekDaysInfo()[this.currentDate.getDay()];
+        this.load();
+      },
+      (e) => {
+        this.eh.HandleError(e);
+      }
+    );
   }
 
+  load(): void {
+    console.log('load');
+    this.loadingSubject.next(true);
+    this.api.GetCalendar(
+      (isNullOrUndefined(this.weekDayFilter) ? this.initialWD.Value : this.weekDayFilter.value),
+      (isNullOrUndefined(this.turnNumFilter) ? this.initialTN : this.turnNumFilter.value),
+    )
+    .subscribe(
+      (calendar) => {
+        this.calendar = calendar;
+        this.loadingSubject.next(false);
+      },
+      (e) => {
+        this.eh.HandleError(e);
+        this.loadingSubject.next(false);
+      }
+    );
+  }
+
+  isGoodState(state: PDRTurnCalendarState): boolean {
+    if ( state.DiscsTotal < state.PDRs.length ) {
+      return false;
+    }
+
+    for ( let i = 0; i < state.DCRR.length; i++ ) {
+      if ( state.DCRR[i].DCTotal < state.DCRR[i].DCRTotal ) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

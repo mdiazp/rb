@@ -56,6 +56,7 @@ func Router(base api.Base) http.Handler {
 		pdiskreservation.NewDeleteController(base),
 		pdiskreservation.NewRetrieveListController(base),
 		pdiskreservation.NewCountController(base),
+		pdiskreservation.NewCalendarController(base),
 
 		pdiskcopy.NewCreateController(base),
 		pdiskcopy.NewRetrieveController(base),
