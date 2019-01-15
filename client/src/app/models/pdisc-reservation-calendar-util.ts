@@ -1,5 +1,12 @@
 import { PDiscReservation } from './pdisc-reservation';
 
+export class PDRTurnCalendar {
+  constructor(
+    public TotalWrongStates: number,
+    public States: PDRTurnCalendarState[],
+  ) {}
+}
+
 export class PDRTurnCalendarState {
   constructor(
     public Date: Date,

@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
-  PDiscReservation, Util, PDRTurnCalendarState,
+  PDiscReservation, Util, PDRTurnCalendar,
 } from '../../models/core';
 
 import { SessionService } from '../session.service';
@@ -56,12 +56,12 @@ export class APIPDiscReservationService extends APIService {
     }
   }
 
-  public GetCalendar(weekDay: string, turnNum: number): Observable<PDRTurnCalendarState[]> {
+  public GetCalendar(weekDay: string, turnNum: number): Observable<PDRTurnCalendar> {
     return this.get(`/pdisk-reservation/calendar/${weekDay}/${turnNum}`).pipe(
       map(res => {
-        for (let i = 0; i < res.length; i++) {
-          res[i].Date = this.util.NewDate(res[i].Date);
-          res[i].PDRs = this.parseList(res[i].PDRs);
+        for (let i = 0; i < res.States.length; i++) {
+          res.States[i].Date = this.util.NewDate(res.States[i].Date);
+          res.States[i].PDRs = this.parseList(res.States[i].PDRs);
         }
         return res;
       })

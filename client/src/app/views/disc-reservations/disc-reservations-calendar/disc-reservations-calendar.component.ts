@@ -3,7 +3,7 @@ import { Util, ValueAndDisplay } from '../../../models/util';
 import { MatSelect } from '@angular/material';
 import { ErrorHandlerService, APIPDiscReservationService, APIFreeInfoService } from '../../../services/core';
 import { BehaviorSubject } from 'rxjs';
-import { PDRTurnCalendarState } from '../../../models/core';
+import { PDRTurnCalendar, PDRTurnCalendarState } from '../../../models/core';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -24,10 +24,13 @@ export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit 
 
   currentDate = new Date();
 
-  calendar: PDRTurnCalendarState[] = [];
+  calendar = new PDRTurnCalendar(0, []);
 
   @ViewChild('weekDayFilter') weekDayFilter: MatSelect;
   @ViewChild('turnNumFilter') turnNumFilter: MatSelect;
+
+  statusOptionAll = true;
+  statusOptionWrong = false;
 
   constructor(private api: APIPDiscReservationService,
               private apiFree: APIFreeInfoService,
@@ -36,27 +39,44 @@ export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit 
   ngOnInit() {}
 
   ngAfterViewInit(): void {
-    this.weekDayFilter.valueChange.subscribe(() => this.load());
-    this.turnNumFilter.valueChange.subscribe(() => this.load());
-
     this.apiFree.GetServerTime().subscribe(
       (currentDate) => {
         this.currentDate = currentDate;
         this.initialWD = this.modelUtil.GetWeekDaysInfo()[this.currentDate.getDay()];
+
+        this.weekDayFilter.valueChange.subscribe(() => this.load());
+        this.turnNumFilter.valueChange.subscribe(() => this.load());
+        console.log('wd = ', this.initialWD);
         this.load();
       },
       (e) => {
+        this.weekDayFilter.valueChange.subscribe(() => this.load());
+        this.turnNumFilter.valueChange.subscribe(() => this.load());
         this.eh.HandleError(e);
       }
     );
+  }
+
+  statusFilterOnSelect(option: string): void {
+    console.log('statusFilterOnSelect ---- option = ', option);
+    if ((option === 'all' && this.statusOptionAll) ||
+        (option !== 'all' && !this.statusOptionAll)) {
+      return;
+    }
+    this.statusOptionAll = !this.statusOptionAll;
+    this.statusOptionWrong = !this.statusOptionWrong;
+
+    this.load();
   }
 
   load(): void {
     console.log('load');
     this.loadingSubject.next(true);
     this.api.GetCalendar(
-      (isNullOrUndefined(this.weekDayFilter) ? this.initialWD.Value : this.weekDayFilter.value),
-      (isNullOrUndefined(this.turnNumFilter) ? this.initialTN : this.turnNumFilter.value),
+      this.initialWD.Value,
+      this.initialTN,
+      // (isNullOrUndefined(this.weekDayFilter) ? this.initialWD.Value : this.weekDayFilter.value),
+      // (isNullOrUndefined(this.turnNumFilter) ? this.initialTN : this.turnNumFilter.value),
     )
     .subscribe(
       (calendar) => {

@@ -128,6 +128,26 @@ a {
 }
 
 ////////////////////////////////////////////////////////////////////////
+.pdr-calendar-state-status-filter-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.pdr-calendar-state-status-filter-option {
+  cursor: pointer;
+  margin: 5px;
+  padding: 5px;
+}
+
+.pdr-calendar-state-status-filter-option-selected {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 1;
+}
+
+.pdr-calendar-state-status-filter-problems-yes {
+  color: #b71c1c;
+}
+
 mat-list.pdr-calendar-state {
   border: 1px solid rgba(0, 0, 0, 0.12);
   margin-bottom: 40px;

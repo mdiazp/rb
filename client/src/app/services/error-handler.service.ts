@@ -72,7 +72,7 @@ export class ErrorHandlerService {
         icon: 'error',
         style: 'error'
       },
-      duration: 1000000,
+      duration: 20000,
     });
   }
 }

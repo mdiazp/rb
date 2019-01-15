@@ -3,18 +3,18 @@
   <mat-form-field>
       <mat-select #weekDayFilter
                 placeholder="Dia de la semana"
-                [value]="initialWD.Value">
-      <mat-option *ngFor="let wd of wds"
-                  [value]="wd.Value">
-        {{wd.DisplayValue}}
-      </mat-option>
+                [(value)]="initialWD.Value">
+        <mat-option *ngFor="let wd of wds"
+                    [value]="wd.Value">
+          {{wd.DisplayValue}}
+        </mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field>
     <mat-select #turnNumFilter
                 placeholder="Numero de turno"
-                [value]="initialTN">
+                [(value)]="initialTN">
       <mat-option *ngFor="let t of turnNums"
                   [value]="t">
         {{t}}
@@ -24,7 +24,26 @@
 
   <br/>
 
-  <mat-list *ngFor="let state of calendar" class="pdr-calendar-state">
+  <div class="pdr-calendar-state-status-filter-wrapper">
+    <span class="flex-space"></span>
+    <div class="pdr-calendar-state-status-filter-option"
+         (click)="this.statusFilterOnSelect('all')"
+         [ngClass]="{
+           'pdr-calendar-state-status-filter-option-selected': this.statusOptionAll
+          }">
+      Todas
+    </div>
+    <div class="pdr-calendar-state-status-filter-option"
+         [ngClass]="{
+           'pdr-calendar-state-status-filter-option-selected': this.statusOptionWrong,
+           'pdr-calendar-state-status-filter-problems-yes': this.calendar.TotalWrongStates > 0
+          }"
+         (click)="this.statusFilterOnSelect('wrong')">
+      Problemas({{calendar.TotalWrongStates}})
+    </div>
+  </div>
+
+  <mat-list *ngFor="let state of calendar.States" class="pdr-calendar-state">
     <div class="pdr-calendar-state-header"
         [ngClass]="{'pdr-calendar-state-header-wrong': !this.isGoodState(state)}">
       <h3 mat-subheader style="color: white; margin-top: 0;">
@@ -36,10 +55,11 @@
 
     <div class="pdr-calendar-state-pdr-item" *ngFor="let pdr of state.PDRs">
         <div class="pdr-calendar-state-pdr-item-client-name">{{pdr.ClientName}}</div>
-        <!--div style="flex: 0 1 auto; margin-right: 30px;">
+        <div style="flex: 0 1 auto; margin-right: 30px;">
           {{this.modelUtil.FormatDateToDisplay(pdr.InitialTime)}} ->
           {{this.modelUtil.FormatDateToDisplay(pdr.FinishTime)}}
-        </div-->
+          {{pdr.TurnWeekDay}} <br/> {{pdr.TurnNum}}
+        </div>
         <span class="flex-space"></span>
         <div class="pdr-calendar-state-pdr-item-dcrequest">{{pdr.DiskCategoryRequest}}</div>
     </div>
