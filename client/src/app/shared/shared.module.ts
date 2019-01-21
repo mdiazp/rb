@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MAT_DIALOG_DATA } from '@angular/material';
 
 import { MenuItems } from './menu-items/menu-items';
 import {

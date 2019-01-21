@@ -11,3 +11,14 @@ export class PDiscReservation {
     public DiskCategoryRequest: string,
   ) {}
 }
+
+export class PDRFreeTurns {
+  DisplayValue: string;
+
+  constructor(
+    public TurnWeekDay: string,
+    public TurnNum: number,
+  ) {
+    this.DisplayValue = `${this.TurnWeekDay} - ${this.TurnNum}`;
+  }
+}

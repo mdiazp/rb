@@ -1,10 +1,10 @@
-export { PDiscReservation } from './pdisc-reservation';
+export * from './pdisc-reservation';
 export * from './pdisc-reservation-calendar-util';
-export { Disk } from './disk';
-export { Client } from './client';
-export { User } from './user';
-export { Credentials } from './credentials';
-export { Session } from './session';
-export { ValidationError } from './validationError';
+export * from './disk';
+export * from './client';
+export * from './user';
+export * from './credentials';
+export * from './session';
+export * from './validationError';
 export * from './rols-and-permissions';
 export * from './util';

@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
-  PDiscReservation, Util, PDRTurnCalendar,
+  PDiscReservation, Util, PDRTurnCalendar, PDRFreeTurns,
 } from '../../models/core';
 
 import { SessionService } from '../session.service';
@@ -84,6 +84,16 @@ export class APIPDiscReservationService extends APIService {
     } else {
       return this.get('/pdiskreservationscount');
     }
+  }
+
+  public GetFreeTurnsToAdd(initialTime: Date,
+                           finishTime: Date,
+                           discCategoryRequest: string): Observable<PDRFreeTurns[]> {
+    const usp: URLSearchParams = new URLSearchParams();
+    usp.append('initialTime', this.util.FormatDateToSendToApi(initialTime));
+    usp.append('finishTime', this.util.FormatDateToSendToApi(finishTime));
+    usp.append('discCategoryRequest', discCategoryRequest);
+    return this.get('pdisk-reservation/free-turns', {params: usp});
   }
 }
 

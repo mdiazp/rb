@@ -7,8 +7,10 @@ import (
 )
 
 // GetPDRTurnCalendar ...
-func GetPDRTurnCalendar(wd models.WeekDay, l *[]models.PDiskReservation, iniTime time.Time,
-	discTotalsByCategory map[string]int, discsTotal int) *PDRTurnCalendar {
+func GetPDRTurnCalendar(wd models.WeekDay, l *[]models.PDiskReservation,
+	iniTime time.Time, discTotalsByCategory map[string]int,
+	discsTotal int) *PDRTurnCalendar {
+
 	pdrxs := GetPDRXs(*l)
 	states := make([]PDRTurnCalendarState, 0)
 	totalWrongStates := 0

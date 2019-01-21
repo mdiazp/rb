@@ -1,0 +1,63 @@
+<h3 style="margin-top: 5px;margin-bottom: 10px;">Nueva Reservacion de Disco</h3>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+
+    <app-client-selector></app-client-selector>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="initialPicker" placeholder="Inicio"
+             formControlName="initialTime" required>
+      <mat-datepicker-toggle matSuffix [for]="initialPicker"></mat-datepicker-toggle>
+      <mat-datepicker #initialPicker [startAt]="serverTime"></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="finishPicker" placeholder="Fin"
+             formControlName="finishTime">
+      <mat-datepicker-toggle matSuffix [for]="finishPicker"></mat-datepicker-toggle>
+      <mat-datepicker #finishPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Costo</mat-label>
+      <input matInput type="number"
+             formControlName="cost" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Categoria de Disco</mat-label>
+      <mat-select formControlName="dcr" required
+                  [value]="this.modelUtil.GetDiskCategoryRequestNull().Value">
+        <mat-option [value]="this.modelUtil.GetDiskCategoryRequestNull().Value">
+          {{this.modelUtil.GetDiskCategoryRequestNull().DisplayValue}}
+        </mat-option>
+        <mat-option *ngFor="let dc of discCategories"
+                    [value]="dc.Value">
+          {{dc.DisplayValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Turno</mat-label>
+      <mat-select formControlName="ft" required>
+        <mat-option *ngFor="let ft of freeTurns"
+                    [value]="ft" [disabled]="freeTurns.length === 0">
+          {{ft.DisplayValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions
+  style="flex-flow: row-reverse wrap; margin-top: 20px;">
+  <button mat-raised-button
+          color="primary" cdkFocusInitial
+          (click)="onSubmit()"
+          [disabled]="!this.EnableSubmitButton()">Aceptar</button>
+
+  <button mat-raised-button [mat-dialog-close]>Cancelar</button>
+</mat-dialog-actions>

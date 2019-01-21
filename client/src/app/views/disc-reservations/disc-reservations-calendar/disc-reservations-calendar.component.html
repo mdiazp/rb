@@ -31,7 +31,7 @@
          [ngClass]="{
            'pdr-calendar-state-status-filter-option-selected': this.statusOptionAll
           }">
-      Todas
+      Todos
     </div>
     <div class="pdr-calendar-state-status-filter-option"
          [ngClass]="{
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <mat-list *ngFor="let state of calendar.States" class="pdr-calendar-state">
+  <mat-list *ngFor="let state of filteredStates" class="pdr-calendar-state">
     <div class="pdr-calendar-state-header"
         [ngClass]="{'pdr-calendar-state-header-wrong': !this.isGoodState(state)}">
       <h3 mat-subheader style="color: white; margin-top: 0;">
@@ -55,11 +55,11 @@
 
     <div class="pdr-calendar-state-pdr-item" *ngFor="let pdr of state.PDRs">
         <div class="pdr-calendar-state-pdr-item-client-name">{{pdr.ClientName}}</div>
-        <div style="flex: 0 1 auto; margin-right: 30px;">
+        <!--div style="flex: 0 1 auto; margin-right: 30px;">
           {{this.modelUtil.FormatDateToDisplay(pdr.InitialTime)}} ->
           {{this.modelUtil.FormatDateToDisplay(pdr.FinishTime)}}
           {{pdr.TurnWeekDay}} <br/> {{pdr.TurnNum}}
-        </div>
+        </div-->
         <span class="flex-space"></span>
         <div class="pdr-calendar-state-pdr-item-dcrequest">{{pdr.DiskCategoryRequest}}</div>
     </div>

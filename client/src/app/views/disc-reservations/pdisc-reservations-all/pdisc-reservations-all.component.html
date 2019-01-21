@@ -15,7 +15,7 @@
                   [matDatepicker]="initialDatePicker"
                   placeholder="Fecha Inicial"
                   (dateInput)="InitialDatePickerChange($event)"
-                  #initalDateFilter>
+                  #initialDateFilter>
           <mat-datepicker-toggle matSuffix [for]="initialDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #initialDatePicker [startAt]="this.serverTime"></mat-datepicker>
         </mat-form-field>

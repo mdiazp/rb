@@ -11,6 +11,11 @@ import { DiscReservationsDashboardComponent } from './disc-reservations-dashboar
 import { DiscReservationsHistoryComponent } from './disc-reservations-history/disc-reservations-history.component';
 import { DiscReservationsCalendarComponent } from './disc-reservations-calendar/disc-reservations-calendar.component';
 import { SharedModule } from '../../shared/shared.module';
+import { NewDiscReservationDialogComponent } from './common/new-disc-reservation-dialog/new-disc-reservation-dialog.component';
+import {
+  ViewOneDiscReservationDialogComponent,
+} from './common/view-one-disc-reservation-dialog/view-one-disc-reservation-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -18,6 +23,7 @@ import { SharedModule } from '../../shared/shared.module';
     DemoMaterialModule,
     SharedModule,
     MyCommonModule,
+    ReactiveFormsModule,
 
     RouterModule.forChild(DiscReservationsRoutes),
   ],
@@ -26,6 +32,12 @@ import { SharedModule } from '../../shared/shared.module';
     DiscReservationsDashboardComponent,
     DiscReservationsHistoryComponent,
     DiscReservationsCalendarComponent,
-  ]
+    NewDiscReservationDialogComponent,
+    ViewOneDiscReservationDialogComponent,
+  ],
+  entryComponents: [
+    NewDiscReservationDialogComponent,
+    ViewOneDiscReservationDialogComponent,
+  ],
 })
 export class DiscReservationsModule { }

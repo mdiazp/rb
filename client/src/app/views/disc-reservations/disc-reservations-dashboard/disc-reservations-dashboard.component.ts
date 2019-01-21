@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+import {
+  NewDiscReservationDialogComponent,
+} from '../common/new-disc-reservation-dialog/new-disc-reservation-dialog.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-disc-reservations-dashboard',
@@ -26,12 +32,20 @@ export class DiscReservationsDashboardComponent implements OnInit {
   ];
   activeLink = this.links[0];
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
   onNew(): void {
-
+    const ref = this.dialog.open(
+      NewDiscReservationDialogComponent,
+      {
+        data: {
+          routeToGetBack: ['dashboard'],
+        }
+      }
+    );
   }
+
 }

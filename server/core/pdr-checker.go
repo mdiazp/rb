@@ -1,7 +1,6 @@
 package core
 
 import (
-	"sort"
 	"time"
 
 	"github.com/mdiazp/rb/server/db/models"
@@ -10,22 +9,10 @@ import (
 // CheckPDR ...
 func CheckPDR(pdiskReservations []models.PDiskReservation,
 	totals []TotDC) ([]PDRFreeTurn, []PDRConflict) {
-	ps := make([]pdrX, 0)
 
-	for _, p := range pdiskReservations {
-		ps = append(ps, pdrX{
-			PDiskReservation: p,
-			ini:              true,
-		})
-		ps = append(ps, pdrX{
-			PDiskReservation: p,
-			ini:              false,
-		})
-	}
+	pdrxs := GetPDRXs(pdiskReservations)
 
-	sort.Sort(pdrXs(ps))
-
-	nps := len(ps)
+	npdrxs := len(pdrxs)
 
 	wds := models.GetWeekDays()
 	nwd := len(wds)
@@ -52,7 +39,7 @@ func CheckPDR(pdiskReservations []models.PDiskReservation,
 
 	conflicts := make([]PDRConflict, 0)
 
-	for ind, px := range ps {
+	for ind, px := range pdrxs {
 		i := wdToInt[px.TurnWeekDay]
 		j := (int)(px.TurnNum)
 		k := dcToInt[px.DiskCategoryRequest]
@@ -70,8 +57,8 @@ func CheckPDR(pdiskReservations []models.PDiskReservation,
 				mx[i][j][ndc-1] = max(mx[i][j][ndc-1], cnt[i][j][ndc-1])
 			}
 
-			if ind+1 == nps || px.GetTime().Before(ps[ind+1].GetTime()) ||
-				px.TurnNum < ps[ind+1].TurnNum || !ps[ind+1].ini {
+			if ind+1 == npdrxs || px.GetTime().Before(pdrxs[ind+1].GetTime()) ||
+				px.TurnNum < pdrxs[ind+1].TurnNum || !pdrxs[ind+1].ini {
 				ok := (cnt[i][j][ndc-1] <= T)
 				if !ok {
 					for k2, tot := range totals {
@@ -137,22 +124,4 @@ type PDRConflict struct {
 type TotDC struct {
 	DiskCategory models.DiskCategory
 	Total        int
-}
-
-func max(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-
-func init3d(n, m, k int) *[][][]int {
-	x := make([][][]int, n)
-	for i := 0; i < n; i++ {
-		x[i] = make([][]int, m)
-		for j := 0; j < m; j++ {
-			x[i][j] = make([]int, k)
-		}
-	}
-	return &x
 }

@@ -25,6 +25,7 @@ export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit 
   currentDate = new Date();
 
   calendar = new PDRTurnCalendar(0, []);
+  filteredStates: PDRTurnCalendarState[] = [];
 
   @ViewChild('weekDayFilter') weekDayFilter: MatSelect;
   @ViewChild('turnNumFilter') turnNumFilter: MatSelect;
@@ -58,7 +59,6 @@ export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit 
   }
 
   statusFilterOnSelect(option: string): void {
-    console.log('statusFilterOnSelect ---- option = ', option);
     if ((option === 'all' && this.statusOptionAll) ||
         (option !== 'all' && !this.statusOptionAll)) {
       return;
@@ -66,7 +66,21 @@ export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit 
     this.statusOptionAll = !this.statusOptionAll;
     this.statusOptionWrong = !this.statusOptionWrong;
 
-    this.load();
+    this.filter();
+  }
+
+  filter(): void {
+    if ( this.statusOptionAll ) {
+      this.filteredStates = this.calendar.States;
+      return;
+    }
+    let tmp: PDRTurnCalendarState[]; tmp = [];
+    for ( let i = 0; i < this.calendar.States.length; i++ ) {
+      if ( this.calendar.States[i].Wrong ) {
+        tmp.push(this.calendar.States[i]);
+      }
+    }
+    this.filteredStates = tmp;
   }
 
   load(): void {
@@ -81,6 +95,7 @@ export class DiscReservationsCalendarComponent implements OnInit, AfterViewInit 
     .subscribe(
       (calendar) => {
         this.calendar = calendar;
+        this.filter();
         this.loadingSubject.next(false);
       },
       (e) => {

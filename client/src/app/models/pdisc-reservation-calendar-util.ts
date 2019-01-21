@@ -13,7 +13,8 @@ export class PDRTurnCalendarState {
     public PDRs: PDiscReservation[],
     public DCRR: DiscCategoryRequestReport[],
     public DCRNullTotal: number,
-    public DiscsTotal: number) {}
+    public DiscsTotal: number,
+    public Wrong: boolean) {}
 }
 
 export class DiscCategoryRequestReport {
